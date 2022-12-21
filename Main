@@ -1,0 +1,322 @@
+package com.xell.xellcalculator;
+
+import androidx.appcompat.app.AppCompatActivity;
+import org.mariuszgromada.math.mxparser.*;
+
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.SpannableStringBuilder;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private EditText display;
+    Context context;
+    MediaPlayer btnClick = MediaPlayer.create(context, R.raw.sfx3);
+    MediaPlayer btnClick2 = MediaPlayer.create(context, R.raw.erase2);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        context = this;
+
+        //Non-numeric Buttons
+        Button clearBTN = findViewById(R.id.clearsBTN);
+        Button parenthesisBTN = findViewById(R.id.parenthesisBTN);
+        Button exponentBTN = findViewById(R.id.exponentBTN);
+        Button divideBTN = findViewById(R.id.divideBTN);
+        Button multiplyBTN = findViewById(R.id.multiplyBTN);
+        Button subtractBTN = findViewById(R.id.subtractBTN);
+        Button addBTN = findViewById(R.id.addBTN);
+        Button plusMinusBTN = findViewById(R.id.plusMinusBTN);
+        Button pointBTN = findViewById(R.id.pointBTN);
+        Button equalsBTN = findViewById(R.id.equalsBTN);
+        ImageButton backspaceBTN = findViewById(R.id.backspaceBTN);
+
+        //Numeric Buttons
+        Button zeroBTN = findViewById(R.id.zeroBTN);
+        Button oneBTN = findViewById(R.id.oneBTN);
+        Button twoBTN = findViewById(R.id.twoBTN);
+        Button threeBTN = findViewById(R.id.threeBTN);
+        Button fourBTN = findViewById(R.id.fourBTN);
+        Button fiveBTN = findViewById(R.id.fiveBTN);
+        Button sixBTN = findViewById(R.id.sixBTN);
+        Button sevenBTN = findViewById(R.id.sevenBTN);
+        Button eightBTN = findViewById(R.id.eightBTN);
+        Button nineBTN = findViewById(R.id.nineBTN);
+
+        //Non-numeric Listeners
+        clearBTN.setOnClickListener(this);
+        parenthesisBTN.setOnClickListener(this);
+        exponentBTN.setOnClickListener(this);
+        divideBTN.setOnClickListener(this);
+        multiplyBTN.setOnClickListener(this);
+        subtractBTN.setOnClickListener(this);
+        addBTN.setOnClickListener(this);
+        plusMinusBTN.setOnClickListener(this);
+        pointBTN.setOnClickListener(this);
+        equalsBTN.setOnClickListener(this);
+        backspaceBTN.setOnClickListener(this);
+
+        //Numeric Listeners
+        zeroBTN.setOnClickListener(this);
+        oneBTN.setOnClickListener(this);
+        twoBTN.setOnClickListener(this);
+        threeBTN.setOnClickListener(this);
+        fourBTN.setOnClickListener(this);
+        fiveBTN.setOnClickListener(this);
+        sixBTN.setOnClickListener(this);
+        sevenBTN.setOnClickListener(this);
+        eightBTN.setOnClickListener(this);
+        nineBTN.setOnClickListener(this);
+
+        display = findViewById(R.id.input);
+        display.setShowSoftInputOnFocus(false);
+
+        btnClick2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer){
+            btnClick2.release();
+            }
+        } );
+
+        /*@Override
+    public void onClick(View v){
+
+        switch (v.getId()){
+            case R.id.backspaceBTN:
+                btnClick2.start();
+                backspaceBTN();
+                break;
+            case R.id.clearsBTN:
+                btnClick2.start();
+                clearBTN();
+                break;
+            case R.id.parenthesisBTN:
+                btnClick.start();
+                parenthesisBTN();
+                break;
+            case R.id.exponentBTN:
+                btnClick.start();
+                exponentBTN();
+                break;
+            case R.id.divideBTN:
+                btnClick.start();
+                divideBTN();
+                break;
+            case R.id.multiplyBTN:
+                btnClick.start();
+                multiplyBTN();
+                break;
+            case R.id.subtractBTN:
+                btnClick.start();
+                subtractBTN();
+                break;
+            case R.id.addBTN:
+                btnClick.start();
+                addBTN();
+                break;
+            case R.id.plusMinusBTN:
+                btnClick.start();
+                plusMinusBTN();
+                break;
+            case R.id.pointBTN:
+                btnClick.start();
+                pointBTN();
+                break;
+            case R.id.equalsBTN:
+                btnClick.start();
+                equalsBTN();
+                break;
+            case R.id.zeroBTN:
+                btnClick.start();
+                zeroBTN();
+                break;
+            case R.id.oneBTN:
+                btnClick.start();
+                oneBTN();
+                break;
+            case R.id.twoBTN:
+                btnClick.start();
+                twoBTN();
+                break;
+            case R.id.threeBTN:
+                btnClick.start();
+                threeBTN();
+                break;
+            case R.id.fourBTN:
+                btnClick.start();
+                fourBTN();
+                break;
+            case R.id.fiveBTN:
+                btnClick.start();
+                fiveBTN();
+                break;
+            case R.id.sixBTN:
+                btnClick.start();
+                sixBTN();
+                break;
+            case R.id.sevenBTN:
+                btnClick.start();
+                sevenBTN();
+                break;
+            case R.id.eightBTN:
+                btnClick.start();
+                eightBTN();
+                break;
+            case R.id.nineBTN:
+                btnClick.start();
+                nineBTN();
+                break;
+
+        }
+    }*/
+    }
+
+    private void updateText(String strToAdd){
+        String oldStr = display.getText().toString(); //grabs the text
+        int cursorPos = display.getSelectionStart();
+
+        //divides the string when you put your cursor to the middle of the numbers.
+        String leftStr = oldStr.substring(0, cursorPos);
+        String rightStr = oldStr.substring(cursorPos);
+
+        if (getString(R.string.display).equals(display.getText().toString())){
+            display.setText(strToAdd);
+            display.setSelection(cursorPos + 1);
+        }else{
+            display.setText(String.format("%s%s%s", leftStr, strToAdd, rightStr));
+            display.setSelection(cursorPos + 1); //updates the cursor position
+        }
+    }
+
+    public void zeroBTN(){
+        updateText("0");
+    }
+
+    public void oneBTN(){
+        updateText("1");
+    }
+
+    public void twoBTN(){
+        updateText("2");
+    }
+
+    public void threeBTN(){
+        updateText("3");
+    }
+
+    public void fourBTN(){
+        updateText("4");
+    }
+
+    public void fiveBTN(){
+        updateText("5");
+    }
+
+    public void sixBTN(){
+        updateText("6");
+    }
+
+    public void sevenBTN(){
+        updateText("7");
+    }
+
+    public void eightBTN(){
+        updateText("8");
+    }
+
+    public void nineBTN(){
+        updateText("9");
+    }
+
+    public void multiplyBTN(){
+        updateText("×");
+    }
+
+    public void divideBTN(){
+        updateText("÷");
+    }
+
+    public void addBTN(){
+        updateText("+");
+    }
+
+    public void subtractBTN(){
+        updateText("-");
+    }
+
+    public void clearBTN(){
+        display.setText("");
+    }
+
+    public void parenthesisBTN(){
+        int cursorPos = display.getSelectionStart();
+        int openPar = 0;
+        int closePar = 0;
+        int textLen = display.getText().length();
+
+        for (int i = 0; i < cursorPos; i++){
+            if (display.getText().toString().substring(i, i+1).equals("(")){
+                openPar += 1;
+            }
+            if (display.getText().toString().substring(i, i+1).equals(")")){
+                closePar += 1;
+            }
+        }
+
+        if (openPar == closePar || display.getText().toString().substring(textLen - 1, textLen).equals("(")){
+            updateText("(");
+            display.setSelection(cursorPos + 1);
+        }
+        else if (closePar < openPar && !display.getText().toString().substring(textLen - 1, textLen).equals("(")){
+            updateText(")");
+            display.setSelection(cursorPos + 1);
+        }
+
+    }
+
+    public void exponentBTN(){
+        updateText("⌃");
+    }
+
+    public void equalsBTN(){
+        String userExp = display.getText().toString();
+
+        userExp = userExp.replaceAll("÷", "/");
+        userExp = userExp.replaceAll("×", "*");
+
+        Expression exp = new Expression(userExp);
+        String result = String.valueOf(exp.calculate());
+
+        display.setText(result);
+        display.setSelection(result.length());
+    }
+
+    public void plusMinusBTN(){
+        updateText("-");
+    }
+
+    public void pointBTN(){
+        updateText(".");
+    }
+
+    public void backspaceBTN(){
+        int cursorPos = display.getSelectionStart();
+        int textLen = display.getText().length();
+
+        if(cursorPos != 0 && textLen != 0){
+            SpannableStringBuilder selection = (SpannableStringBuilder) display.getText();
+            selection.replace(cursorPos - 1, cursorPos, "");
+            display.setText(selection);
+            display.setSelection(cursorPos - 1);
+        }
+    }
+
+}
