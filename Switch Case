@@ -1,0 +1,91 @@
+@Override
+    public void onClick(View v){
+
+        switch (v.getId()){
+            case R.id.backspaceBTN:
+                btnClick2.start();
+                backspaceBTN();
+                break;
+            case R.id.clearsBTN:
+                btnClick2.start();
+                clearBTN();
+                break;
+            case R.id.parenthesisBTN:
+                btnClick.start();
+                parenthesisBTN();
+                break;
+            case R.id.exponentBTN:
+                btnClick.start();
+                exponentBTN();
+                break;
+            case R.id.divideBTN:
+                btnClick.start();
+                divideBTN();
+                break;
+            case R.id.multiplyBTN:
+                btnClick.start();
+                multiplyBTN();
+                break;
+            case R.id.subtractBTN:
+                btnClick.start();
+                subtractBTN();
+                break;
+            case R.id.addBTN:
+                btnClick.start();
+                addBTN();
+                break;
+            case R.id.plusMinusBTN:
+                btnClick.start();
+                plusMinusBTN();
+                break;
+            case R.id.pointBTN:
+                btnClick.start();
+                pointBTN();
+                break;
+            case R.id.equalsBTN:
+                btnClick.start();
+                equalsBTN();
+                break;
+            case R.id.zeroBTN:
+                btnClick.start();
+                zeroBTN();
+                break;
+            case R.id.oneBTN:
+                btnClick.start();
+                oneBTN();
+                break;
+            case R.id.twoBTN:
+                btnClick.start();
+                twoBTN();
+                break;
+            case R.id.threeBTN:
+                btnClick.start();
+                threeBTN();
+                break;
+            case R.id.fourBTN:
+                btnClick.start();
+                fourBTN();
+                break;
+            case R.id.fiveBTN:
+                btnClick.start();
+                fiveBTN();
+                break;
+            case R.id.sixBTN:
+                btnClick.start();
+                sixBTN();
+                break;
+            case R.id.sevenBTN:
+                btnClick.start();
+                sevenBTN();
+                break;
+            case R.id.eightBTN:
+                btnClick.start();
+                eightBTN();
+                break;
+            case R.id.nineBTN:
+                btnClick.start();
+                nineBTN();
+                break;
+
+        }
+    }
